@@ -1,14 +1,16 @@
-package com.wellrocha.pojos;
+package com.wellrocha.dtos;
 
 import com.opencsv.bean.CsvBindByPosition;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Builder
 @Getter
 public class DividendHistory {
+
     @CsvBindByPosition(position = 0)
     private LocalDate date;
 
@@ -22,14 +24,15 @@ public class DividendHistory {
     private String description;
 
     @CsvBindByPosition(position = 4)
-    private Float amount;
+    private BigDecimal amount;
 
     @CsvBindByPosition(position = 5)
     private String taxDescription;
 
     @CsvBindByPosition(position = 6)
-    private Float taxAmount;
+    private BigDecimal taxAmount;
 
     @CsvBindByPosition(position = 7)
-    private Float total;
+    private BigDecimal total;
+
 }

@@ -1,29 +1,22 @@
 package com.wellrocha;
 
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.wellrocha.models.DividendsHistoryMap;
 import com.wellrocha.models.ParseCsvTransactions;
-import com.wellrocha.pojos.DividendHistory;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import com.wellrocha.models.WriteCsvFile;
+import com.wellrocha.services.CreateDividendHistoryService;
 
 public class App {
-    public static void main( String[] args ) throws IOException, URISyntaxException, CsvRequiredFieldEmptyException,
-            CsvDataTypeMismatchException {
+    public static void main( String[] args ) {
         var csvTransactions = new ParseCsvTransactions();
-        var transactions = csvTransactions.execute();
-
         var dividendsHistoryMap = new DividendsHistoryMap();
-        var dividendsHistory = dividendsHistoryMap.execute(transactions);
+        var writeCsvFile = new WriteCsvFile();
 
-        var writer = new FileWriter("src/main/resources/dividends-history.csv");
-        var beanToCsv = new StatefulBeanToCsvBuilder<DividendHistory>(writer).build();
-
-        beanToCsv.write(dividendsHistory);
-        writer.close();
+        var createDividendHistoryService = new CreateDividendHistoryService(csvTransactions, dividendsHistoryMap, writeCsvFile);
+        var response = createDividendHistoryService.execute();
+        if (response.isSuccess()) {
+            System.out.println("Operação efetuada com sucesso.");
+        } else {
+            System.out.println(response.getError());
+        }
     }
 }

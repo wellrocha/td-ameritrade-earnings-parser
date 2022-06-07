@@ -1,11 +1,13 @@
-package com.wellrocha.pojos;
+package com.wellrocha.dtos;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvDate;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Transaction {
+
     @CsvBindByName(column = "DATE", required = true)
     @CsvDate("MM/dd/yyyy")
     private LocalDate date;
@@ -17,7 +19,7 @@ public class Transaction {
     private String description;
 
     @CsvBindByName(column = "AMOUNT", required = true)
-    private Float amount;
+    private BigDecimal amount;
 
     public Transaction() {
     }
@@ -34,11 +36,12 @@ public class Transaction {
         return description;
     }
 
-    public Float getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
 }

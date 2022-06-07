@@ -1,18 +1,17 @@
 package com.wellrocha.models;
 
-import com.wellrocha.pojos.DividendHistory;
-import com.wellrocha.pojos.Transaction;
+import com.wellrocha.dtos.DividendHistory;
+import com.wellrocha.dtos.Transaction;
 
-import java.text.DecimalFormat;
-import java.util.Collection;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DividendsHistoryMap {
+final public class DividendsHistoryMap {
 
-    public List<DividendHistory> execute(final Collection<Transaction> transactions) {
+    public List<DividendHistory> execute(final List<Transaction> transactions) {
         var taxes = transactions
                 .stream()
                 .filter(this::getTransactionTax)
@@ -29,7 +28,7 @@ public class DividendsHistoryMap {
                 .filter(this::getTransactionRoc)
                 .forEach(roc -> this.addRocToDividendsHistory(roc, dividendsHistory));
 
-        Collections.sort(dividendsHistory, Comparator.comparing(DividendHistory::getDate));
+        dividendsHistory.sort(Comparator.comparing(DividendHistory::getDate));
         return Collections.unmodifiableList(dividendsHistory);
     }
 
@@ -46,7 +45,7 @@ public class DividendsHistoryMap {
     }
 
     private boolean getTransactionRoc(final Transaction transaction) {
-        return transaction.getDescription().toLowerCase().contains("withholding") && transaction.getAmount() > 0;
+        return transaction.getDescription().toLowerCase().contains("withholding") && transaction.getAmount().compareTo(BigDecimal.ZERO) > 0;
     }
 
     private DividendHistory createDividendHistory(final Transaction transaction, final List<Transaction> taxes) {
@@ -54,13 +53,10 @@ public class DividendsHistoryMap {
                 .stream()
                 .filter(it -> it.getSymbol().equals(transaction.getSymbol()))
                 .findFirst()
-                .get();
+                .orElseThrow();
         taxes.remove(tax);
 
-        var decimalFormatPattern = new DecimalFormat("#.##");
-        var total = transaction.getAmount() + tax.getAmount();
-        total = Float.parseFloat(decimalFormatPattern.format(total));
-
+        var total = transaction.getAmount().add(tax.getAmount());
         return DividendHistory.builder()
                 .date(transaction.getDate())
                 .type("Dividends")
@@ -78,7 +74,7 @@ public class DividendsHistoryMap {
     }
 
     private boolean getTransactionTax(final Transaction transaction) {
-        return transaction.getDescription().toLowerCase().contains("withholding") && transaction.getAmount() < 0;
+        return transaction.getDescription().toLowerCase().contains("withholding") && transaction.getAmount().compareTo(BigDecimal.ZERO) < 0;
     }
 
 }
