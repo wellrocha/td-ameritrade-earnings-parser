@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 final public class DividendsHistoryMap {
@@ -53,7 +54,7 @@ final public class DividendsHistoryMap {
                 .stream()
                 .filter(it -> it.getSymbol().equals(transaction.getSymbol()))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new NoSuchElementException("Existem um ou mais dividendos que estão sem as taxas"));
         taxes.remove(tax);
 
         var total = transaction.getAmount().add(tax.getAmount());
@@ -74,7 +75,9 @@ final public class DividendsHistoryMap {
     }
 
     private boolean getTransactionTax(final Transaction transaction) {
-        return transaction.getDescription().toLowerCase().contains("withholding") && transaction.getAmount().compareTo(BigDecimal.ZERO) < 0;
+        var description = transaction.getDescription().toLowerCase();
+        return (description.contains("withholding") || description.contains("withheld"))
+                && transaction.getAmount().compareTo(BigDecimal.ZERO) < 0;
     }
 
 }
