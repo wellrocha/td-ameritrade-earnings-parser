@@ -1,4 +1,4 @@
-package com.wellrocha.models;
+package com.wellrocha.adapter.csv;
 
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;

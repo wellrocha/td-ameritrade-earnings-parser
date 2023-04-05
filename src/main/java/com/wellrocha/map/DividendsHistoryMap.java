@@ -1,4 +1,4 @@
-package com.wellrocha.models;
+package com.wellrocha.map;
 
 import com.wellrocha.dtos.DividendHistory;
 import com.wellrocha.dtos.Transaction;

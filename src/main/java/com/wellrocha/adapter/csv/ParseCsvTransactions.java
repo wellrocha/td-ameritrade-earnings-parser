@@ -1,8 +1,8 @@
-package com.wellrocha.models;
+package com.wellrocha.adapter.csv;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.wellrocha.dtos.Transaction;
-import com.wellrocha.exceptions.ParseCsvTransactionsException;
+import com.wellrocha.error.ParseCsvTransactionsException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

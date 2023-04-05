@@ -1,9 +1,9 @@
 package com.wellrocha;
 
-import com.wellrocha.models.DividendsHistoryMap;
-import com.wellrocha.models.ParseCsvTransactions;
-import com.wellrocha.models.WriteCsvFile;
-import com.wellrocha.services.CreateDividendHistoryService;
+import com.wellrocha.map.DividendsHistoryMap;
+import com.wellrocha.adapter.csv.ParseCsvTransactions;
+import com.wellrocha.adapter.csv.WriteCsvFile;
+import com.wellrocha.service.CreateDividendHistoryService;
 
 public class App {
     public static void main( String[] args ) {

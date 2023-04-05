@@ -1,8 +1,8 @@
-package com.wellrocha.services;
+package com.wellrocha.service;
 
-import com.wellrocha.models.DividendsHistoryMap;
-import com.wellrocha.models.ParseCsvTransactions;
-import com.wellrocha.models.WriteCsvFile;
+import com.wellrocha.map.DividendsHistoryMap;
+import com.wellrocha.adapter.csv.ParseCsvTransactions;
+import com.wellrocha.adapter.csv.WriteCsvFile;
 
 final public class CreateDividendHistoryService {
 

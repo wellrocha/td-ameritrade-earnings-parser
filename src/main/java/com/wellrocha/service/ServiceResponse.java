@@ -1,4 +1,4 @@
-package com.wellrocha.services;
+package com.wellrocha.service;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.wellrocha.exceptions;
+package com.wellrocha.error;
 
 public class ParseCsvTransactionsException extends Exception {
 
